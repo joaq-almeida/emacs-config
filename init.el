@@ -55,20 +55,21 @@
 ;; install and config neotree
 (use-package neotree
   :ensure t
-  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  :bind (("C-\\" . 'neotree-toggle)))
+  :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+  ;; :bind (("<f8>" . 'neotree-toggle)))
 
 ;; install ace-window
 (use-package ace-window
   :ensure t)
 
-(use-package ergoemacs-mode
-  :ensure t
-  :config
-  (progn
-    (setq ergoemacs-theme nil)
-    (setq ergoemacs-keyboard-layout "us")
-    (ergoemacs-mode 1)))
+
+;;(use-package ergoemacs-mode
+;;  :ensure t
+;;  :config
+;;  (progn
+;;    (setq ergoemacs-theme nil)
+;;    (setq ergoemacs-keyboard-layout "us")
+;;    (ergoemacs-mode 1)))
 
 ;; key shortcuts
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -77,6 +78,13 @@
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink--window-horizontally)
 (global-set-key (kbd "M-9") 'eshell)
+(global-unset-key "\C-z")
+(global-set-key "\C-z" 'undo)
+(global-set-key [f8] 'neotree-toggle)
+
+;;(global-set-key (kbd "\C-<right>") 'next-window)
+;;(global-set-key (kbd "\C-<left>") 'previous-window)
+
 ;;(global-set-key (kbd "M-o") 'ace-window)
 
 ;;Theme set
