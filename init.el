@@ -25,7 +25,7 @@
 (package-initialize) ; init packages
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents) 
+  (package-refresh-contents)
   (package-install 'use-package))
 
 (use-package try
