@@ -1,3 +1,5 @@
+/home/steve/.emacs.d/.gitignore
+/home/steve/.emacs.d/#.gitignore#
 /home/steve/.emacs.d/init.el
 /home/steve/.emacs.d/#init.el#
 /home/steve/git-acc.txt
