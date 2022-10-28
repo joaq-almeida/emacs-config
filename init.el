@@ -76,7 +76,8 @@
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink--window-horizontally)
-(global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-9") 'shell)
+;;(global-set-key (kbd "M-o") 'ace-window)
 
 ;;Theme set
 ;;(use-package zenburn-theme
