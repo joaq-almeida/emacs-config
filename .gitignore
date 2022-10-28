@@ -5,3 +5,4 @@ ac-comphist.dat
 .gitignore~
 init.el~
 elpa/
+auto-save-list/
