@@ -81,10 +81,8 @@
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
-
 ;;(global-set-key (kbd "\C-<right>") 'next-window)
 ;;(global-set-key (kbd "\C-<left>") 'previous-window)
-
 ;;(global-set-key (kbd "M-o") 'ace-window)
 
 ;;Theme set
@@ -92,9 +90,14 @@
 ;;  :ensure t)
 ;;(load-theme 'zenburn t)
 
-(use-package gruvbox-theme
+;; (use-package gruvbox-theme
+;;   :ensure t)
+;; (load-theme 'gruvbox-dark-hard t)
+
+(use-package dracula-theme
   :ensure t)
-(load-theme 'gruvbox-dark-hard t)
+(load-theme 'dracula t)
+
 
 ;; MELPA stuff 
 (custom-set-variables
