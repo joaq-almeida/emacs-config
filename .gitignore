@@ -3,6 +3,8 @@ ac-comphist.dat
 *recentf
 *recentf~
 .gitignore~
+commands.txt
+commands.txt~
 init.el~
 projectile-bookmarks.eld
 elpa/
