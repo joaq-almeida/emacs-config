@@ -5,14 +5,17 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+;; Start frame with full screen
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; Start every frame maximazed
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 ;; Remove scrollbar mode
 (scroll-bar-mode -1)
 
 ;; Set line number global
 (global-linum-mode t)
-
-;;Font size
-;;(set-face-attribute 'default nil :height 150)
 
 ;; Packages
 (require 'package)
@@ -20,7 +23,7 @@
 
 ;; MELPA -> repo
 (add-to-list 'package-archives
-	     '("melpa-stable". "https://melpa.org/packages/"))
+	     '("melpa-stable". "https://stable.melpa.org/packages/"))
 
 (package-initialize) ; init packages
 
@@ -62,7 +65,6 @@
 (use-package ace-window
   :ensure t)
 
-
 ;;(use-package ergoemacs-mode
 ;;  :ensure t
 ;;  :config
@@ -70,6 +72,13 @@
 ;;    (setq ergoemacs-theme nil)
 ;;    (setq ergoemacs-keyboard-layout "us")
 ;;    (ergoemacs-mode 1)))
+
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("C-c p" . projectile-command-map)))
 
 ;; key shortcuts
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -81,18 +90,10 @@
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
+;; (define-key projectile-mode-map (kbd "\C-c p") 'projectile-command-map)
 ;;(global-set-key (kbd "\C-<right>") 'next-window)
 ;;(global-set-key (kbd "\C-<left>") 'previous-window)
 ;;(global-set-key (kbd "M-o") 'ace-window)
-
-;;Theme set
-;;(use-package zenburn-theme
-;;  :ensure t)
-;;(load-theme 'zenburn t)
-
-;; (use-package gruvbox-theme
-;;   :ensure t)
-;; (load-theme 'gruvbox-dark-hard t)
 
 (use-package dracula-theme
   :ensure t)

@@ -4,6 +4,7 @@ ac-comphist.dat
 *recentf~
 .gitignore~
 init.el~
+projectile-bookmarks.eld
 elpa/
 auto-save-list/
 eshell/
