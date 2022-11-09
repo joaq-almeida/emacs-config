@@ -5,6 +5,15 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
+;; Highlight matching pair
+(show-paren-mode 1)
+
+;; Disable #autosave#
+(setq auto-save-default nil)
+
+;; Disable backup~
+(setq make-backup-files nil)
+
 ;; Start frame with full screen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 
@@ -59,7 +68,6 @@
 (use-package neotree
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-  ;; :bind (("<f8>" . 'neotree-toggle)))
 
 ;; install ace-window
 (use-package ace-window
