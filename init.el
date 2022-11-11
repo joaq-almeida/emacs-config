@@ -32,7 +32,7 @@
 
 ;; MELPA -> repo
 (add-to-list 'package-archives
-	     '("melpa-stable". "https://stable.melpa.org/packages/"))
+	     '("melpa". "https://melpa.org/packages/"))
 
 (package-initialize) ; init packages
 
@@ -73,20 +73,8 @@
 (use-package ace-window
   :ensure t)
 
-;;(use-package ergoemacs-mode
-;;  :ensure t
-;;  :config
-;;  (progn
-;;    (setq ergoemacs-theme nil)
-;;    (setq ergoemacs-keyboard-layout "us")
-;;    (ergoemacs-mode 1)))
-
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("C-c p" . projectile-command-map)))
+(use-package magit
+  :ensure t)
 
 ;; key shortcuts
 (global-set-key (kbd "C-<tab>") 'other-window)
@@ -98,15 +86,21 @@
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
-;; (define-key projectile-mode-map (kbd "\C-c p") 'projectile-command-map)
-;;(global-set-key (kbd "\C-<right>") 'next-window)
-;;(global-set-key (kbd "\C-<left>") 'previous-window)
-;;(global-set-key (kbd "M-o") 'ace-window)
+(global-set-key [f9] 'neotree-dir)
+(global-set-key (kbd "M-o") 'ace-window)
 
-(use-package dracula-theme
+;; Themes :)
+;; (use-package dracula-theme
+;;   :ensure t)
+;; (load-theme 'dracula t)
+
+;; (use-package subatomic256-theme
+;;   :ensure t)
+;; (load-theme 'subatomic256 t)
+
+(use-package misterioso-theme
   :ensure t)
-(load-theme 'dracula t)
-
+(load-theme 'misterioso t)
 
 ;; MELPA stuff 
 (custom-set-variables
