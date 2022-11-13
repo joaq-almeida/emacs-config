@@ -40,6 +40,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; Install helm
+;; (when (not (package-installed-p 'helm))
+;;   (package-install 'helm))
+
 (use-package try
   :ensure t)
 
@@ -94,22 +98,22 @@
 ;;   :ensure t)
 ;; (load-theme 'dracula t)
 
-;; (use-package subatomic256-theme
-;;   :ensure t)
-;; (load-theme 'subatomic256 t)
-
-(use-package misterioso-theme
+(use-package gotham-theme
   :ensure t)
-(load-theme 'misterioso t)
+(load-theme 'gotham t)
 
-;; MELPA stuff 
+;; (use-package misterioso-theme
+;;   :ensure t)
+;; (load-theme 'misterioso t)
+
+;; Melpa Stuff
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(zenburn-theme ace-window auto-complete which-key try use-package)))
+   '(misterioso-theme zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme projectile neotree magit gruvbox-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
