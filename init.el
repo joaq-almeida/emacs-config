@@ -1,32 +1,28 @@
-;; Remove welcome screen
-(setq inhibit-startup-message t)
+;;======================================================================
+;; Configuration file to Emacs by Joaquim Almeida
+;;
+;; This file is hosted at https://github.com/joaq-almeida/emacs-config.
+;;
+;; Almost all the content available here was obtained/inspired by
+;; queries on the internet. Please, send questions, problems and/or
+;; suggestions as an issue on GitHub project of this file.
+;;======================================================================
 
-;; Remove default menu
-(tool-bar-mode -1)
-(menu-bar-mode -1)
+(setq inhibit-startup-message t)                             ;; Remove welcome screen
+(tool-bar-mode -1)                                           ;; Remove tool menu
+(menu-bar-mode -1)                                           ;; Remove bar menu
+(show-paren-mode 1)                                          ;; Highlight matching pair
+(setq auto-save-default nil)                                 ;; Disable #autosave#
+(setq make-backup-files nil)                                 ;; Disable backup~
+(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Start frame with full screen
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Start every frame maximazed
+(scroll-bar-mode -1)                                         ;; Remove scrollbar mode
+(global-linum-mode t)                                        ;; Set line number global
 
-;; Highlight matching pair
-(show-paren-mode 1)
+;;======================================================================
+;; Package config
+;;======================================================================
 
-;; Disable #autosave#
-(setq auto-save-default nil)
-
-;; Disable backup~
-(setq make-backup-files nil)
-
-;; Start frame with full screen
-(add-to-list 'initial-frame-alist '(fullscreen . maximized))
-
-;; Start every frame maximazed
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
-
-;; Remove scrollbar mode
-(scroll-bar-mode -1)
-
-;; Set line number global
-(global-linum-mode t)
-
-;; Packages
 (require 'package)
 (setq package-enable-at-startup nil) ; disable package init
 
@@ -34,15 +30,20 @@
 (add-to-list 'package-archives
 	     '("melpa". "https://melpa.org/packages/"))
 
-(package-initialize) ; init packages
-
+(package-initialize) 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-;; Install helm
-;; (when (not (package-installed-p 'helm))
-;;   (package-install 'helm))
+;;======================================================================
+;; Packages
+;;======================================================================
+
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 ;; Install web-mode
 (use-package web-mode
@@ -91,7 +92,18 @@
 (use-package magit
   :ensure t)
 
-;; key shortcuts
+;; Enable elpy
+(elpy-enable)
+
+;; Enable Flycheck
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;;======================================================================
+;; key shortcuts.
+;;======================================================================
+
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
 (global-set-key (kbd "M-<up>") 'shrink-window)
@@ -104,6 +116,10 @@
 (global-set-key [f9] 'neotree-dir)
 (global-set-key (kbd "M-o") 'ace-window)
 
+;;======================================================================
+;; Themes load
+;;======================================================================
+
 ;; Themes :)
 ;; (use-package moe-theme
 ;;   :ensure t)
@@ -111,7 +127,9 @@
 
 (load-theme 'tango-dark t)
 
-;; Melpa Stuff
+;;======================================================================
+;; MELPA stuffs
+;;======================================================================
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -119,7 +137,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(web-mode markdown-mode zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme solarized-theme projectile neotree moe-theme magit helm gruvbox-theme gruber-darker-theme gotham-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
+   '(elpy web-mode markdown-mode zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme solarized-theme projectile neotree moe-theme magit helm gruvbox-theme gruber-darker-theme gotham-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
