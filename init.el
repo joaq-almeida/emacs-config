@@ -39,15 +39,35 @@
 ;; Packages
 ;;======================================================================
 
-(use-package elpy
-  :ensure t
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable))
-
-;; Install web-mode
-(use-package web-mode
+;; ESS
+(use-package ess
   :ensure t)
+
+;;set autocomplete
+;; (use-package auto-complete
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (ac-config-default)
+;;     (global-auto-complete-mode t)))
+
+
+;; set autocomplete
+(use-package company
+  :ensure t
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 2)
+  (global-company-mode t))
+
+;; Parentheses
+(use-package highlight-parentheses
+  :ensure t
+  :config
+  (progn
+    (highlight-parentheses-mode)
+    (global-highlight-parentheses-mode)))
+
 
 ;; Install Markdown mode
 (use-package markdown-mode
@@ -65,14 +85,6 @@
   (progn
     (which-key-setup-side-window-right-bottom)
     (which-key-mode)))
-
-;; set autocomplete
-(use-package auto-complete
-  :ensure t
-  :init
-  (progn
-    (ac-config-default)
-    (global-auto-complete-mode t)))
 
 ;; download icons
 (use-package all-the-icons
@@ -92,13 +104,29 @@
 (use-package magit
   :ensure t)
 
+;; Install web-mode
+;; (use-package web-mode
+;;   :ensure t)
+
+
+;;======================================================================
+;; Python configs.
+;;======================================================================
+
+;; elpy
+;; (use-package elpy
+;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (advice-add 'python-mode :before 'elpy-enable))
+
 ;; Enable elpy
-(elpy-enable)
+;; (elpy-enable)
 
 ;; Enable Flycheck
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
+;; (when (require 'flycheck nil t)
+;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;;======================================================================
 ;; key shortcuts.
