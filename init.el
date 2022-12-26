@@ -145,6 +145,15 @@
 (global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
+;; other configs.
+;;======================================================================
+
+(fset 'perl-mode 'cperl-mode)
+(setq cperl-invalid-face nil)
+(setq cperl-indent-parens-as-block t)
+;;(setq cperl-close-paren-offset (- cperl-indent-level))
+
+;;======================================================================
 ;; Themes load
 ;;======================================================================
 
