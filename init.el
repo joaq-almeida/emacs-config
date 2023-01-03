@@ -39,19 +39,6 @@
 ;; Packages
 ;;======================================================================
 
-;; ESS
-(use-package ess
-  :ensure t)
-
-;;set autocomplete
-;; (use-package auto-complete
-;;   :ensure t
-;;   :init
-;;   (progn
-;;     (ac-config-default)
-;;     (global-auto-complete-mode t)))
-
-
 ;; set autocomplete
 (use-package company
   :ensure t
@@ -108,25 +95,32 @@
 ;; (use-package web-mode
 ;;   :ensure t)
 
+;;======================================================================
+;; R configs.
+;;======================================================================
+
+;; ESS
+;; (use-package ess
+;;   :ensure t)
 
 ;;======================================================================
 ;; Python configs.
 ;;======================================================================
 
 ;; elpy
-;; (use-package elpy
-;;   :ensure t
-;;   :defer t
-;;   :init
-;;   (advice-add 'python-mode :before 'elpy-enable))
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
 ;; Enable elpy
-;; (elpy-enable)
+(elpy-enable)
 
 ;; Enable Flycheck
-;; (when (require 'flycheck nil t)
-;;   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-;;   (add-hook 'elpy-mode-hook 'flycheck-mode))
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;;======================================================================
 ;; key shortcuts.
@@ -145,7 +139,7 @@
 (global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
-;; other configs.
+;; Perl configs.
 ;;======================================================================
 
 (fset 'perl-mode 'cperl-mode)
@@ -174,7 +168,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(elpy web-mode markdown-mode zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme solarized-theme projectile neotree moe-theme magit helm gruvbox-theme gruber-darker-theme gotham-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
+   '(elixir-mode elpy web-mode markdown-mode zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme solarized-theme projectile neotree moe-theme magit helm gruvbox-theme gruber-darker-theme gotham-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
