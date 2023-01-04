@@ -125,11 +125,11 @@
   :ensure t)
 
 ;; Run autopep8 on save
-(use-package py-autopep8
-  :config
-  (setq py-autopep8-options '("--max-line-length=100" "--aggressive")))
- ;; :hook ((elpy-mode-hook) . py-autopep8-mode))
-(add-hook 'elpy-mode-hook 'py-autopep8-mode)
+;; (use-package py-autopep8
+;;   :config
+;;   (setq py-autopep8-options '("--max-line-length=100" "--aggressive")))
+;;  ;; :hook ((elpy-mode-hook) . py-autopep8-mode))
+;; (add-hook 'elpy-mode-hook 'py-autopep8-mode)
 
 ;; Black formatting on save
 (use-package blacken
