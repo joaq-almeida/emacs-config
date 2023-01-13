@@ -57,10 +57,10 @@
 
 
 ;; Install Markdown mode
-;; (use-package markdown-mode
-;;   :ensure t
-;;   :mode ("README\\.md\\'" . gfm-mode)
-;;   :init (setq markdown-command "markdown"))
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "markdown"))
 
 (use-package try
   :ensure t)
@@ -149,6 +149,13 @@
 ;; Enable autopep8
 ;; (require 'py-autopep8)
 ;; (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+;;======================================================================
+;; ReScript configs.
+;;======================================================================
+
+(use-package rescript-mode
+  :ensure t)
 
 ;;======================================================================
 ;; Perl configs.
