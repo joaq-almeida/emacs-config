@@ -39,6 +39,10 @@
 ;; Packages
 ;;======================================================================
 
+;; Ido mode
+(require 'ido)
+    (ido-mode t)
+
 ;; set autocomplete
 (use-package company
   :ensure t
@@ -100,8 +104,8 @@
 ;;======================================================================
 
 ;; ESS
-;; (use-package ess
-;;   :ensure t)
+(use-package ess
+  :ensure t)
 
 ;;======================================================================
 ;; Python configs.
