@@ -39,6 +39,13 @@
 ;; Packages
 ;;======================================================================
 
+(use-package try
+  :ensure t)
+
+(use-package yasnippet
+  :ensure t)
+(yas-global-mode 1)
+
 ;; Ido mode
 (require 'ido)
     (ido-mode t)
@@ -65,9 +72,6 @@
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "markdown"))
-
-(use-package try
-  :ensure t)
 
 ;; set a package helper for commands
 (use-package which-key
