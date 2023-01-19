@@ -99,6 +99,10 @@
 (use-package magit
   :ensure t)
 
+;; Major mode for several modes in one buffer
+(use-package polymode
+  :ensure t)
+
 ;; Install web-mode
 ;; (use-package web-mode
 ;;   :ensure t)
@@ -110,6 +114,16 @@
 ;; ESS
 (use-package ess
   :ensure t)
+(setq-default ess-dialect "R")
+(setq-default inferior-R-args "--no-restore-history --no-save ")
+
+
+(use-package poly-markdown
+             :ensure t)
+(use-package poly-R
+             :ensure t)
+(add-to-list 'auto-mode-alist '("\\.[Rr]md" . poly-markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
 
 ;;======================================================================
 ;; Python configs.
