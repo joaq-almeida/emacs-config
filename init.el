@@ -42,9 +42,17 @@
 (use-package try
   :ensure t)
 
-(use-package yasnippet
+;; Major mode for several modes in one buffer
+(use-package polymode
   :ensure t)
-(yas-global-mode 1)
+
+;; ;; Little templates for programming languages :)
+;; (use-package yasnippet
+;;   :ensure t)
+;; (use-package yasnippet-snippets
+;;   :ensure t)
+;; ;; Turning on this mode
+;; (yas-global-mode t)
 
 ;; Ido mode
 (require 'ido)
@@ -96,16 +104,16 @@
   :ensure t)
 
 ;; Install magit 
-(use-package magit
-  :ensure t)
-
-;; Major mode for several modes in one buffer
-(use-package polymode
-  :ensure t)
+;; (use-package magit
+;;    :ensure t)
 
 ;; Install web-mode
-;; (use-package web-mode
-;;   :ensure t)
+(use-package web-mode
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 
 ;;======================================================================
 ;; R configs.
@@ -146,17 +154,6 @@
 (use-package ein
   :ensure t)
 
-;; Run autopep8 on save
-;; (use-package py-autopep8
-;;   :config
-;;   (setq py-autopep8-options '("--max-line-length=100" "--aggressive")))
-;;  ;; :hook ((elpy-mode-hook) . py-autopep8-mode))
-;; (add-hook 'elpy-mode-hook 'py-autopep8-mode)
-
-;; Black formatting on save
-(use-package blacken
-  :ensure t)
-
 ;; Use IPython for REPL
 (setq python-shell-interpreter "jupyter"
       python-shell-interpreter-args "console --simple-prompt"
@@ -167,10 +164,6 @@
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-;; Enable autopep8
-;; (require 'py-autopep8)
-;; (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 ;;======================================================================
 ;; ReScript configs.
@@ -202,7 +195,7 @@
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
-(global-set-key (kbd "M-o") 'ace-window)
+;; (global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
 ;; Themes load
