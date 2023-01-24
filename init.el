@@ -195,7 +195,7 @@
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
-;; (global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
 ;; Themes load
