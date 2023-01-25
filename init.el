@@ -27,8 +27,10 @@
 (setq package-enable-at-startup nil) ; disable package init
 
 ;; MELPA -> repo
+;; (add-to-list 'package-archives
+;; 	     '("melpa". "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
-	     '("melpa". "https://melpa.org/packages/") t)
+	     '("melpa-stable". "https://stable.melpa.org/packages/") t)
 
 (package-initialize) 
 (unless (package-installed-p 'use-package)
@@ -103,9 +105,21 @@
 (use-package ace-window
   :ensure t)
 
+;; A better syntax highlight
+(use-package tree-sitter
+  :ensure t)
+(use-package tree-sitter-langs
+  :ensure t)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on 'tree-sitter-ml-mode)
+
 ;; Install magit 
 ;; (use-package magit
 ;;    :ensure t)
+
+;; Org mode
+(use-package org
+  :ensure t)
 
 ;; Install web-mode
 (use-package web-mode
@@ -176,10 +190,10 @@
 ;; Perl configs.
 ;;======================================================================
 
-;; (fset 'perl-mode 'cperl-mode)
-;; (setq cperl-invalid-face nil)
-;; (setq cperl-indent-parens-as-block t)
-;; ;;(setq cperl-close-paren-offset (- cperl-indent-level))
+(fset 'perl-mode 'cperl-mode)
+(setq cperl-invalid-face nil)
+(setq cperl-indent-parens-as-block t)
+;;(setq cperl-close-paren-offset (- cperl-indent-level))
 
 ;;======================================================================
 ;; key shortcuts.
@@ -196,6 +210,9 @@
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
 (global-set-key (kbd "M-o") 'ace-window)
+(global-set-key (kbd "C-c l") #'org-store-link)
+(global-set-key (kbd "C-c a") #'org-agenda)
+(global-set-key (kbd "C-c c") #'org-capture)
 
 ;;======================================================================
 ;; Themes load
