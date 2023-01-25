@@ -121,6 +121,13 @@
 (use-package org
   :ensure t)
 
+;; active Org Babel for languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (R . t)
+   (emacs-lisp . nil)))
+
 ;; Install web-mode
 (use-package web-mode
   :ensure t)
@@ -210,7 +217,7 @@
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
 (global-set-key (kbd "M-o") 'ace-window)
-(global-set-key (kbd "C-c l") #'org-store-link)
+;; (global-set-key (kbd "C-c l") #'org-store-link)
 (global-set-key (kbd "C-c a") #'org-agenda)
 (global-set-key (kbd "C-c c") #'org-capture)
 
