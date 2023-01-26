@@ -131,10 +131,12 @@
 ;; Install web-mode
 (use-package web-mode
   :ensure t)
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 
 ;;======================================================================
 ;; R configs.
@@ -167,7 +169,9 @@
 
 ;;Install flycheck
 (use-package flycheck
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook 'flycheck-mode))
 
 ;; Enable elpy
 (elpy-enable)
@@ -181,7 +185,7 @@
       python-shell-prompt-detect-failure-warning nil)
 (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
 
-;; Enable Flycheck
+;; Enable Flycheck for python
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
@@ -201,6 +205,16 @@
 (setq cperl-invalid-face nil)
 (setq cperl-indent-parens-as-block t)
 ;;(setq cperl-close-paren-offset (- cperl-indent-level))
+
+;;======================================================================
+;; Typescript configs.
+;;======================================================================
+
+(use-package typescript-mode
+  :ensure t
+  :config
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode #'subword-mode))
 
 ;;======================================================================
 ;; key shortcuts.
