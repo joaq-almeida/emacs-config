@@ -10,7 +10,7 @@
 
 (setq inhibit-startup-message t)                             ;; Remove welcome screen
 (tool-bar-mode -1)                                           ;; Remove tool menu
-(menu-bar-mode -1)                                           ;; Remove bar menu
+;; (menu-bar-mode -1)                                        ;; Remove bar menu
 (show-paren-mode 1)                                          ;; Highlight matching pair
 (setq auto-save-default nil)                                 ;; Disable #autosave#
 (setq make-backup-files nil)                                 ;; Disable backup~
@@ -96,6 +96,10 @@
   :ensure t
   :if (display-graphic-p))
 
+;; Install abover using M-x
+;; (use-package all-the-icons-install-fonts
+;;   :ensure t)
+
 ;; install and config neotree
 (use-package neotree
   :ensure t
@@ -137,6 +141,17 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
+
+;; Install Projectile
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+(setq projectile-project-search-path '("~/dev/" ("~/github" . 1)))
 
 ;;======================================================================
 ;; R configs.
@@ -167,7 +182,7 @@
   :init
   (advice-add 'python-mode :before 'elpy-enable))
 
-;;Install flycheck
+;; Install flycheck
 (use-package flycheck
   :ensure t
   :config
@@ -176,8 +191,8 @@
 ;; Enable elpy
 (elpy-enable)
 
-(use-package ein
-  :ensure t)
+;; (use-package ein
+;;  :ensure t)
 
 ;; Use IPython for REPL
 (setq python-shell-interpreter "jupyter"
@@ -194,27 +209,27 @@
 ;; ReScript configs.
 ;;======================================================================
 
-(use-package rescript-mode
-  :ensure t)
+;; (use-package rescript-mode
+;;  :ensure t)
 
 ;;======================================================================
 ;; Perl configs.
 ;;======================================================================
 
-(fset 'perl-mode 'cperl-mode)
-(setq cperl-invalid-face nil)
-(setq cperl-indent-parens-as-block t)
-;;(setq cperl-close-paren-offset (- cperl-indent-level))
+;; (fset 'perl-mode 'cperl-mode)
+;; (setq cperl-invalid-face nil)
+;; (setq cperl-indent-parens-as-block t)
+;; (setq cperl-close-paren-offset (- cperl-indent-level))
 
 ;;======================================================================
 ;; Typescript configs.
 ;;======================================================================
 
-(use-package typescript-mode
-  :ensure t
-  :config
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode #'subword-mode))
+;;(use-package typescript-mode
+;;  :ensure t
+;;  :config
+;;  (setq typescript-indent-level 2)
+;;  (add-hook 'typescript-mode #'subword-mode))
 
 ;;======================================================================
 ;; key shortcuts.
@@ -232,8 +247,8 @@
 (global-set-key [f9] 'neotree-dir)
 (global-set-key (kbd "M-o") 'ace-window)
 ;; (global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+;; (global-set-key (kbd "C-c a") #'org-agenda)
+;; (global-set-key (kbd "C-c c") #'org-capture)
 
 ;;======================================================================
 ;; Themes load
@@ -244,19 +259,18 @@
 ;;   :ensure t)
 ;; (load-theme 'moe-dark t)
 
-(load-theme 'tango-dark t)
+;; (load-theme 'tango-dark t)
 
 ;;======================================================================
 ;; MELPA stuffs
 ;;======================================================================
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(py-autopep8 elixir-mode elpy web-mode markdown-mode zenburn-theme which-key use-package try subatomic256-theme subatomic-theme spacemacs-theme solarized-theme projectile neotree moe-theme magit helm gruvbox-theme gruber-darker-theme gotham-theme ergoemacs-mode dracula-theme color-theme-sanityinc-tomorrow auto-complete all-the-icons ace-window)))
+   '(moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
