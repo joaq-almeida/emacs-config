@@ -18,6 +18,7 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Start every frame maximazed
 (scroll-bar-mode -1)                                         ;; Remove scrollbar mode
 (global-linum-mode t)                                        ;; Set line number global
+(global-visual-line-mode t)                                  ;; Do not break the lines
 
 ;;======================================================================
 ;; Package config
@@ -195,10 +196,12 @@
 ;;  :ensure t)
 
 ;; Use IPython for REPL
-(setq python-shell-interpreter "jupyter"
-      python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
+;; (setq python-shell-interpreter "python3"
+;;       python-shell-interpreter-args "console --simple-prompt"
+;;       python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
+(setq python-shell-completion-native-disabled-interpreters '("python"))
+
 
 ;; Enable Flycheck for python
 (when (require 'flycheck nil t)
