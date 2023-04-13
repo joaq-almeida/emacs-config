@@ -262,7 +262,7 @@
 ;;   :ensure t)
 ;; (load-theme 'moe-dark t)
 
-;; (load-theme 'tango-dark t)
+(load-theme 'tango-dark t)
 
 ;;======================================================================
 ;; MELPA stuffs
