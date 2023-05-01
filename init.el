@@ -10,7 +10,7 @@
 
 (setq inhibit-startup-message t)                             ;; Remove welcome screen
 (tool-bar-mode -1)                                           ;; Remove tool menu
-;; (menu-bar-mode -1)                                        ;; Remove bar menu
+(menu-bar-mode -1)                                           ;; Remove bar menu
 (show-paren-mode 1)                                          ;; Highlight matching pair
 (setq auto-save-default nil)                                 ;; Disable #autosave#
 (setq make-backup-files nil)                                 ;; Disable backup~
@@ -26,12 +26,19 @@
 
 (require 'package)
 (setq package-enable-at-startup nil) ; disable package init
+  
+;; MELPA repos
+(setq package-archives
+      '(("melpa". "https://melpa.org/packages/")
+	("melpa-stable". "https://stable.melpa.org/packages/")
+	("gnu" . "https://elpa.gnu.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
 
 ;; MELPA -> repo
 ;; (add-to-list 'package-archives
 ;; 	     '("melpa". "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("melpa-stable". "https://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;; 	     '("melpa-stable". "https://stable.melpa.org/packages/") t)
 
 (package-initialize) 
 (unless (package-installed-p 'use-package)
@@ -118,10 +125,6 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on 'tree-sitter-ml-mode)
 
-;; Install magit 
-;; (use-package magit
-;;    :ensure t)
-
 ;; Org mode
 (use-package org
   :ensure t)
@@ -144,15 +147,19 @@
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . web-mode))
 
+;; Install magit 
+;; (use-package magit
+;;    :ensure t)
+
 ;; Install Projectile
-(use-package projectile
-  :ensure t
-  :init
-  (projectile-mode +1)
-  :bind (:map projectile-mode-map
-              ("s-p" . projectile-command-map)
-              ("C-c p" . projectile-command-map)))
-(setq projectile-project-search-path '("~/dev/" ("~/github" . 1)))
+;; (use-package projectile
+;;   :ensure t
+;;   :init
+;;   (projectile-mode +1)
+;;   :bind (:map projectile-mode-map
+;;               ("s-p" . projectile-command-map)
+;;               ("C-c p" . projectile-command-map)))
+;; (setq projectile-project-search-path '("~/dev/"))
 
 ;;======================================================================
 ;; R configs.
@@ -235,6 +242,33 @@
 ;;  (add-hook 'typescript-mode #'subword-mode))
 
 ;;======================================================================
+;; Scala configs.
+;;======================================================================
+
+(use-package scala-mode
+  :ensure t)
+
+;; Enable sbt mode for executing sbt commands
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false")))
+
+;;======================================================================
+;; Groovy configs.
+;;======================================================================
+
+(use-package groovy-mode
+  :ensure t)
+
+;;======================================================================
 ;; key shortcuts.
 ;;======================================================================
 
@@ -273,7 +307,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
+   '(scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
