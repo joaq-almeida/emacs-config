@@ -28,7 +28,7 @@
 (setq package-enable-at-startup nil) ; disable package init
   
 ;; MELPA repos
-(setq package-archives
+ (setq package-archives
       '(("melpa". "https://melpa.org/packages/")
 	("melpa-stable". "https://stable.melpa.org/packages/")
 	("gnu" . "https://elpa.gnu.org/packages/")
@@ -36,9 +36,9 @@
 
 ;; MELPA -> repo
 ;; (add-to-list 'package-archives
-;; 	     '("melpa". "https://melpa.org/packages/") t)
+;;	     '("melpa". "https://melpa.org/packages/") t)
 ;; (add-to-list 'package-archives
-;; 	     '("melpa-stable". "https://stable.melpa.org/packages/") t)
+;;   '("melpa-stable". "https://stable.melpa.org/packages/") t)
 
 (package-initialize) 
 (unless (package-installed-p 'use-package)
@@ -104,7 +104,7 @@
   :ensure t
   :if (display-graphic-p))
 
-;; Install abover using M-x
+;; Install down below using M-x
 ;; (use-package all-the-icons-install-fonts
 ;;   :ensure t)
 
@@ -118,12 +118,12 @@
   :ensure t)
 
 ;; A better syntax highlight
-(use-package tree-sitter
-  :ensure t)
-(use-package tree-sitter-langs
-  :ensure t)
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on 'tree-sitter-ml-mode)
+;; (use-package tree-sitter
+;;   :ensure t)
+;; (use-package tree-sitter-langs
+;;   :ensure t)
+;; (global-tree-sitter-mode)
+;; (add-hook 'tree-sitter-after-on 'tree-sitter-ml-mode)
 
 ;; Org mode
 (use-package org
@@ -171,6 +171,11 @@
 (setq-default ess-dialect "R")
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 
+;; Down below is workaround to solve
+;; the damn problem with fancy R comments in ESS mode.
+;; https://github.com/emacs-ess/ESS/issues/1175
+;; (setq ess-indent-with-fancy-comments nil)
+(setf (cdr (assoc 'ess-indent-with-fancy-comments ess-own-style-list)) nil)
 
 (use-package poly-markdown
              :ensure t)
@@ -178,6 +183,39 @@
              :ensure t)
 (add-to-list 'auto-mode-alist '("\\.[Rr]md" . poly-markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
+
+(use-package ess-view
+  :ensure t)
+(setq ess-view--spreadsheet-program "gnumeric")
+
+;; Script and console highlight
+(setq ess-R-font-lock-keywords
+      '((ess-R-fl-keyword:modifiers . t)
+        (ess-R-fl-keyword:fun-defs . t)
+        (ess-R-fl-keyword:keywords . t)
+        (ess-R-fl-keyword:assign-ops . t)
+        (ess-R-fl-keyword:constants . t)
+        (ess-fl-keyword:fun-calls . t)
+        (ess-fl-keyword:numbers . t)
+        (ess-fl-keyword:operators . t)
+        (ess-fl-keyword:delimiters . t)
+        (ess-fl-keyword:= . t)
+        (ess-R-fl-keyword:F&T . t)))
+(setq inferior-R-font-lock-keywords
+      '((ess-S-fl-keyword:prompt . t)
+        (ess-R-fl-keyword:messages . t)
+        (ess-R-fl-keyword:modifiers . t)
+        (ess-R-fl-keyword:fun-defs . t)
+        (ess-R-fl-keyword:keywords . t)
+        (ess-R-fl-keyword:assign-ops . t)
+        (ess-R-fl-keyword:constants . t)
+        (ess-fl-keyword:matrix-labels . t)
+        (ess-fl-keyword:fun-calls . t)
+        (ess-fl-keyword:numbers . t)
+        (ess-fl-keyword:operators . t)
+        (ess-fl-keyword:delimiters . t)
+        (ess-fl-keyword:= . t)
+        (ess-R-fl-keyword:F&T . t)))
 
 ;;======================================================================
 ;; Python configs.
@@ -207,7 +245,7 @@
 ;;       python-shell-interpreter-args "console --simple-prompt"
 ;;       python-shell-prompt-detect-failure-warning nil)
 ;; (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
-(setq python-shell-completion-native-disabled-interpreters '("python"))
+(setq python-shell-completion-native-disabled-interpreters '("python3"))
 
 
 ;; Enable Flycheck for python
@@ -296,7 +334,12 @@
 ;;   :ensure t)
 ;; (load-theme 'moe-dark t)
 
-(load-theme 'tango-dark t)
+(use-package ayu-theme
+  :ensure t
+  :config (load-theme 'ayu-dark t))
+
+;; (load-theme 'tango-dark t)
+;; (load-theme 'nord t)
 
 ;;======================================================================
 ;; MELPA stuffs
@@ -307,7 +350,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
+   (quote
+    (nord-theme all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-dired scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
