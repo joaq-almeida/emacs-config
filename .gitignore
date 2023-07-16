@@ -8,6 +8,7 @@ commands.txt~
 init.el~
 projectile-bookmarks.eld
 elpa/
+elpy/
 auto-save-list/
 eshell/
 transient/

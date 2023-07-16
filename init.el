@@ -34,12 +34,6 @@
 	("gnu" . "https://elpa.gnu.org/packages/")
         ("org" . "http://orgmode.org/elpa/")))
 
-;; MELPA -> repo
-;; (add-to-list 'package-archives
-;;	     '("melpa". "https://melpa.org/packages/") t)
-;; (add-to-list 'package-archives
-;;   '("melpa-stable". "https://stable.melpa.org/packages/") t)
-
 (package-initialize) 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -67,6 +61,12 @@
 ;; Ido mode
 (require 'ido)
     (ido-mode t)
+
+;; Install flycheck
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook 'flycheck-mode))
 
 ;; set autocomplete
 (use-package company
@@ -118,12 +118,27 @@
   :ensure t)
 
 ;; A better syntax highlight
-;; (use-package tree-sitter
-;;   :ensure t)
-;; (use-package tree-sitter-langs
-;;   :ensure t)
-;; (global-tree-sitter-mode)
-;; (add-hook 'tree-sitter-after-on 'tree-sitter-ml-mode)
+(use-package tree-sitter
+  :ensure t)
+(use-package tree-sitter-langs
+  :ensure t)
+(use-package tree-sitter-indent
+  :ensure t)
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+;; Langs of tree-sitter
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+     (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")))
 
 ;; Org mode
 (use-package org
@@ -152,14 +167,14 @@
 ;;    :ensure t)
 
 ;; Install Projectile
-;; (use-package projectile
-;;   :ensure t
-;;   :init
-;;   (projectile-mode +1)
-;;   :bind (:map projectile-mode-map
-;;               ("s-p" . projectile-command-map)
-;;               ("C-c p" . projectile-command-map)))
-;; (setq projectile-project-search-path '("~/dev/"))
+(use-package projectile
+  :ensure t
+  :init
+  (projectile-mode +1)
+  :bind (:map projectile-mode-map
+              ("s-p" . projectile-command-map)
+              ("C-c p" . projectile-command-map)))
+(setq projectile-project-search-path '("~/projects/"))
 
 ;;======================================================================
 ;; R configs.
@@ -228,46 +243,14 @@
   :init
   (advice-add 'python-mode :before 'elpy-enable))
 
-;; Install flycheck
-(use-package flycheck
-  :ensure t
-  :config
-  (add-hook 'typescript-mode-hook 'flycheck-mode))
-
 ;; Enable elpy
 (elpy-enable)
-
-;; (use-package ein
-;;  :ensure t)
-
-;; Use IPython for REPL
-;; (setq python-shell-interpreter "python3"
-;;       python-shell-interpreter-args "console --simple-prompt"
-;;       python-shell-prompt-detect-failure-warning nil)
-;; (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter")
 (setq python-shell-completion-native-disabled-interpreters '("python3"))
-
 
 ;; Enable Flycheck for python
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-;;======================================================================
-;; ReScript configs.
-;;======================================================================
-
-;; (use-package rescript-mode
-;;  :ensure t)
-
-;;======================================================================
-;; Perl configs.
-;;======================================================================
-
-;; (fset 'perl-mode 'cperl-mode)
-;; (setq cperl-invalid-face nil)
-;; (setq cperl-indent-parens-as-block t)
-;; (setq cperl-close-paren-offset (- cperl-indent-level))
 
 ;;======================================================================
 ;; Typescript configs.
@@ -283,28 +266,46 @@
 ;; Scala configs.
 ;;======================================================================
 
-(use-package scala-mode
-  :ensure t)
+;; (use-package scala-mode
+;;   :ensure t)
 
 ;; Enable sbt mode for executing sbt commands
-(use-package sbt-mode
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
+;; (use-package sbt-mode
+;;   :commands sbt-start sbt-command
+;;   :config
+;;   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+;;   ;; allows using SPACE when in the minibuffer
+;;   (substitute-key-definition
+;;    'minibuffer-complete-word
+;;    'self-insert-command
+;;    minibuffer-local-completion-map)
+;;    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+;;    (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;;======================================================================
 ;; Groovy configs.
 ;;======================================================================
 
-(use-package groovy-mode
-  :ensure t)
+;; (use-package groovy-mode
+;;   :ensure t)
+
+;;======================================================================
+;; C# configs.
+;;======================================================================
+
+;; OK, there is a kind of heresy here.
+;; But I don't fucking mind
+(use-package csharp-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
+
+(defun my-csharp-mode-hook ()
+  ;; enable the stuff you want for C# here
+  (electric-pair-mode 1)       ;; Emacs 24
+  (electric-pair-local-mode 1) ;; Emacs 25
+  )
+(add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 ;;======================================================================
 ;; key shortcuts.
@@ -334,11 +335,11 @@
 ;;   :ensure t)
 ;; (load-theme 'moe-dark t)
 
-(use-package ayu-theme
-  :ensure t
-  :config (load-theme 'ayu-dark t))
+;; (use-package ayu-theme
+;;   :ensure t
+;;   :config (load-theme 'ayu-dark t))
 
-;; (load-theme 'tango-dark t)
+(load-theme 'tango-dark t)
 ;; (load-theme 'nord t)
 
 ;;======================================================================
@@ -350,8 +351,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (nord-theme all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-dired scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package))))
+   '(nord-theme all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-dired scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
