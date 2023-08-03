@@ -50,14 +50,6 @@
 (use-package polymode
   :ensure t)
 
-;; ;; Little templates for programming languages :)
-;; (use-package yasnippet
-;;   :ensure t)
-;; (use-package yasnippet-snippets
-;;   :ensure t)
-;; ;; Turning on this mode
-;; (yas-global-mode t)
-
 ;; Ido mode
 (require 'ido)
     (ido-mode t)
@@ -174,7 +166,7 @@
   :bind (:map projectile-mode-map
               ("s-p" . projectile-command-map)
               ("C-c p" . projectile-command-map)))
-(setq projectile-project-search-path '("~/projects/"))
+(setq projectile-project-search-path '("~/.projects/"))
 
 ;;======================================================================
 ;; R configs.
@@ -186,7 +178,7 @@
 (setq-default ess-dialect "R")
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 
-;; Down below is workaround to solve
+;; Down below is a workaround to solve
 ;; the damn problem with fancy R comments in ESS mode.
 ;; https://github.com/emacs-ess/ESS/issues/1175
 ;; (setq ess-indent-with-fancy-comments nil)
@@ -295,17 +287,17 @@
 
 ;; OK, there is a kind of heresy here.
 ;; But I don't fucking mind
-(use-package csharp-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
+;; (use-package csharp-mode
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-tree-sitter-mode)))
 
-(defun my-csharp-mode-hook ()
-  ;; enable the stuff you want for C# here
-  (electric-pair-mode 1)       ;; Emacs 24
-  (electric-pair-local-mode 1) ;; Emacs 25
-  )
-(add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
+;; (defun my-csharp-mode-hook ()
+;;   ;; enable the stuff you want for C# here
+;;   (electric-pair-mode 1)       ;; Emacs 24
+;;   (electric-pair-local-mode 1) ;; Emacs 25
+;;   )
+;; (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
 
 ;;======================================================================
 ;; key shortcuts.
@@ -315,32 +307,26 @@
 (global-set-key (kbd "M-<down>") 'enlarge-window)
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
-(global-set-key (kbd "M-<right>") 'shrink--window-horizontally)
+(global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
 (global-set-key (kbd "M-9") 'eshell)
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
 (global-set-key (kbd "M-o") 'ace-window)
-;; (global-set-key (kbd "C-c l") #'org-store-link)
-;; (global-set-key (kbd "C-c a") #'org-agenda)
-;; (global-set-key (kbd "C-c c") #'org-capture)
 
 ;;======================================================================
 ;; Themes load
 ;;======================================================================
 
 ;; Themes :)
-;; (use-package moe-theme
-;;   :ensure t)
-;; (load-theme 'moe-dark t)
-
-;; (use-package ayu-theme
-;;   :ensure t
-;;   :config (load-theme 'ayu-dark t))
 
 (load-theme 'tango-dark t)
-;; (load-theme 'nord t)
+;; (load-theme 'misterioso t)
+
+;; (use-package material-theme
+;;   :ensure t)
+;; (load-theme 'material t)
 
 ;;======================================================================
 ;; MELPA stuffs
@@ -350,8 +336,38 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#212121" "#B71C1C" "#558b2f" "#FFA000" "#2196f3" "#4527A0" "#00796b" "#FAFAFA"))
+ '(custom-safe-themes
+   '("6e2ced785017da31e8da8dbcbb9e69beda4c3b87dd9ad2b1bb5da9f19240ec31" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "adb567dc2208b9e95ce3bc1930bf0e84a3eced91e674b4c35777e54650a60763" "1bd567cb5e458af8b83370c2d56119ad9b134ce69450df28a6124cc97847374e" "664111db1521fe3351061dc87aea95fa98b3f244f4b830fbc048d39c3a8bc125" "882d6a5981fd85d9f987d31623e25e69b8d5635a53ab442f1a51e7c252790320" "1576495a064188b7b3017d16763288a6e9583a01f02773144b246ef56e64ec76" "d6426f913bca40360889cba4aa25a6c02b67823a93b51e6db1b6a102b8a631e6" "94ac10e5261b9a32c9f1a7ef88f3fb89bfcbad843436aaaedc97c7975d8e6ab2" default))
+ '(fci-rule-color "#ECEFF1")
+ '(hl-sexp-background-color "#efebe9")
+ '(ispell-dictionary nil)
  '(package-selected-packages
-   '(nord-theme all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-dired scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package)))
+   '(nord-theme all-the-icons-ibuffer all-the-icons-ivy-rich all-the-icons-dired scala-mode moe-theme flycheck elpy poly-R poly-markdown ess web-mode tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company polymode try use-package))
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   '((20 . "#B71C1C")
+     (40 . "#FF5722")
+     (60 . "#FFA000")
+     (80 . "#558b2f")
+     (100 . "#00796b")
+     (120 . "#2196f3")
+     (140 . "#4527A0")
+     (160 . "#B71C1C")
+     (180 . "#FF5722")
+     (200 . "#FFA000")
+     (220 . "#558b2f")
+     (240 . "#00796b")
+     (260 . "#2196f3")
+     (280 . "#4527A0")
+     (300 . "#B71C1C")
+     (320 . "#FF5722")
+     (340 . "#FFA000")
+     (360 . "#558b2f")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
