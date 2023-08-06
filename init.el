@@ -128,7 +128,6 @@
 (use-package web-mode
   :ensure t)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 
 ;; Install magit 
 (use-package magit
@@ -240,6 +239,20 @@
 ;;   :ensure t)
 
 ;;======================================================================
+;; Elisp functions.
+;;======================================================================
+
+(defun open-shell-split-window ()
+  "Open shell and split window."
+  (interactive)
+  (split-window)
+  (eshell)
+  (previous-buffer) ;; 1
+  (other-window 1)
+  (next-buffer)     ;; 2
+  (other-window 1))
+
+;;======================================================================
 ;; key shortcuts.
 ;;======================================================================
 
@@ -248,7 +261,7 @@
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
 (global-set-key (kbd "M-<right>") 'shrink-window-horizontally)
-(global-set-key (kbd "M-9") 'eshell)
+(global-set-key (kbd "M-9") 'open-shell-split-window)
 (global-unset-key "\C-z")
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
