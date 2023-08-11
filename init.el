@@ -131,6 +131,7 @@
 ;; Markdown configs.
 ;;======================================================================
 
+;; Markdown mode
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -139,6 +140,13 @@
 ;; Org-struct minor mode active in markdown mode.
 (add-hook 'markdown-mode-hook 'turn-on-orgstruct)
 (add-hook 'markdown-mode-hook 'turn-on-orgstruct++)
+ 
+(use-package poly-markdown
+             :ensure t)
+(use-package poly-R
+  :ensure t)
+(add-to-list 'auto-mode-alist '("\\.[Rr]md" . poly-markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
 
 ;;======================================================================
 ;; R configs.
@@ -155,13 +163,6 @@
 ;; https://github.com/emacs-ess/ESS/issues/1175
 ;; (setq ess-indent-with-fancy-comments nil)
 (setf (cdr (assoc 'ess-indent-with-fancy-comments ess-own-style-list)) nil)
-
-(use-package poly-markdown
-             :ensure t)
-(use-package poly-R
-             :ensure t)
-(add-to-list 'auto-mode-alist '("\\.[Rr]md" . poly-markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
 
 (use-package ess-view
   :ensure t)
@@ -202,48 +203,11 @@
 
 ;; elpy
 (use-package elpy
-  :ensure t
-  :defer t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable))
+  :ensure t)
 
 ;; Enable elpy
 (elpy-enable)
-(setq python-shell-completion-native-disabled-interpreters '("python"))
-(setq python-shell-interpreter "/usr/bin/python3"
-  python-shell-interpreter-args "-i --simple-prompt")
-
-;; Enable Flycheck for python
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-;;======================================================================
-;; Scala configs.
-;;======================================================================
-
-;; (use-package scala-mode
-;;   :ensure t)
-
-;; Enable sbt mode for executing sbt commands
-;; (use-package sbt-mode
-;;   :commands sbt-start sbt-command
-;;   :config
-;;   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-;;   ;; allows using SPACE when in the minibuffer
-;;   (substitute-key-definition
-;;    'minibuffer-complete-word
-;;    'self-insert-command
-;;    minibuffer-local-completion-map)
-;;    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-;;    (setq sbt:program-options '("-Dsbt.supershell=false")))
-
-;;======================================================================
-;; Groovy configs.
-;;======================================================================
-
-;; (use-package groovy-mode
-;;   :ensure t)
+(setq python-shell-interpreter "/usr/bin/python3")
 
 ;;======================================================================
 ;; Elisp functions.
@@ -290,13 +254,14 @@
 ;;======================================================================
 ;; MELPA stuffs
 ;;======================================================================
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(timu-macos-theme elpy ess-view poly-R poly-markdown ess projectile magit web-mode tree-sitter-indent tree-sitter-langs tree-sitter ace-window neotree all-the-icons which-key markdown-mode highlight-parentheses company flycheck polymode try use-package)))
+   '(gruber-darker-theme elpy ess-view ess poly-R poly-markdown magit web-mode neotree all-the-icons which-key highlight-parentheses company flycheck polymode try use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
