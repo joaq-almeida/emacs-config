@@ -6,7 +6,7 @@
 ;; Most of all the content available here was obtained/inspired by
 ;; Prof Walmes Zeviani ~/.emacs.d from Dept of Statistics from UFPR.
 ;; His repo: https://github.com/walmes/emacs
-
+;;
 ;; Please, send questions, problems and/or
 ;; suggestions as an issue on GitHub project of this file.
 ;;======================================================================
@@ -84,12 +84,6 @@
     (highlight-parentheses-mode)
     (global-highlight-parentheses-mode)))
 
-;; Install Markdown mode
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "markdown"))
-
 ;; set a package helper for commands
 (use-package which-key
   :ensure t
@@ -132,6 +126,19 @@
 ;; Install magit 
 (use-package magit
    :ensure t)
+
+;;======================================================================
+;; Markdown configs.
+;;======================================================================
+
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
+
+;; Org-struct minor mode active in markdown mode.
+(add-hook 'markdown-mode-hook 'turn-on-orgstruct)
+(add-hook 'markdown-mode-hook 'turn-on-orgstruct++)
 
 ;;======================================================================
 ;; R configs.
@@ -202,7 +209,7 @@
 
 ;; Enable elpy
 (elpy-enable)
-;; (setq python-shell-completion-native-disabled-interpreters '("python"))
+(setq python-shell-completion-native-disabled-interpreters '("python"))
 (setq python-shell-interpreter "/usr/bin/python3"
   python-shell-interpreter-args "-i --simple-prompt")
 
@@ -266,19 +273,19 @@
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
-(global-set-key (kbd "M-o") 'ace-window)
+;; (global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
 ;; Themes load
 ;;======================================================================
 
 ;; Themes :)
-(load-theme 'tango-dark t)
+;; (load-theme 'tango-dark t)
 
-;; (use-package timu-macos-theme
-;;   :ensure t
-;;   :config
-;;   (load-theme 'timu-macos t))
+(use-package gruber-darker-theme
+  :ensure t
+  :config
+  (load-theme 'gruber-darker t))
 
 ;;======================================================================
 ;; MELPA stuffs
