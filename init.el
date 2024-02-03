@@ -1,14 +1,14 @@
 ;;======================================================================
-;; Configuration file to Emacs by Joaquim Almeida
+;; Emacs configuration file written by Joaquim Almeida
 ;;
 ;; This file is hosted at https://github.com/joaq-almeida/emacs-config
 ;;
-;; Most of all the content available here was obtained/inspired by
+;; Most of the content available here was obtained/inspired by
 ;; Prof Walmes Zeviani ~/.emacs.d from Dept of Statistics from UFPR.
 ;; His repo: https://github.com/walmes/emacs
 ;;
 ;; Please, send questions, problems and/or
-;; suggestions as an issue on GitHub project of this file.
+;; suggestions as an issue on GitHub project for this file.
 ;;======================================================================
 
 (setq inhibit-startup-message t)                             ;; Remove welcome screen
