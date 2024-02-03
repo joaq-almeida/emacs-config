@@ -14,14 +14,15 @@
 (setq inhibit-startup-message t)                             ;; Remove welcome screen
 (tool-bar-mode -1)                                           ;; Remove tool menu
 (menu-bar-mode -1)                                           ;; Remove bar menu
-(show-paren-mode 1)                                          ;; Highlight matching pair
+(show-paren-mode t)                                          ;; Highlight matching pair
 (setq auto-save-default nil)                                 ;; Disable #autosave#
 (setq make-backup-files nil)                                 ;; Disable backup~
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Start frame with full screen
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Start every frame maximazed
 (scroll-bar-mode -1)                                         ;; Remove scrollbar mode
 (global-linum-mode t)                                        ;; Set line number global
-(global-visual-line-mode)                                    ;; Do not wrap lines
+(global-visual-line-mode t)                                  ;; Do not wrap lines
+(toggle-truncate-lines -1)                                   ;; Do not truncate lines 
 (require 'generic-x)                                         ;; A better highlight
 
 ;;======================================================================
@@ -35,8 +36,8 @@
 ;;======================================================================
 
 (require 'package)
-(setq package-enable-at-startup nil) ; disable package init
-  
+(setq package-enable-at-startup nil) ;; disable package init
+ 
 ;; MELPA repos
  (setq package-archives
       '(("melpa". "https://melpa.org/packages/")
@@ -53,6 +54,7 @@
 ;; Packages
 ;;======================================================================
 
+;; Package for trying install packages
 (use-package try
   :ensure t)
 
@@ -60,21 +62,13 @@
 (use-package polymode
   :ensure t)
 
+;; Mode for code completion
+(require 'auto-complete-config)
+(ac-config-default)
+
 ;; Ido mode
 (require 'ido)
     (ido-mode t)
-
-;; Install flycheck
-(use-package flycheck
-  :ensure t)
-
-;; set autocomplete
-(use-package company
-  :ensure t
-  :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 2)
-  (global-company-mode t))
 
 ;; Parentheses
 (use-package highlight-parentheses
@@ -97,49 +91,39 @@
   :ensure t
   :if (display-graphic-p))
 
-;; Install down below using M-x
-;; (use-package all-the-icons-install-fonts
-;;   :ensure t)
-
 ;; install and config neotree
 (use-package neotree
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
-;; Org mode
-(use-package org
-  :ensure t)
-
-;; active Org Babel for languages
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (R . t)
-   (emacs-lisp . t)))
-(setq org-confirm-babel-evaluate nil)
-
 ;; Install web-mode
 (use-package web-mode
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
-;; Install magit 
-(use-package magit
-   :ensure t)
+  :ensure t
+  :mode (("\\.html?\\'" . web-mode))
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-block-padding 2
+        web-mode-comment-style 2
+        web-mode-enable-css-colorization t
+        web-mode-enable-auto-pairing t
+        web-mode-enable-comment-keywords t
+        web-mode-enable-current-element-highlight t
+        ))
 
 ;;======================================================================
 ;; Markdown configs.
 ;;======================================================================
 
-;; Markdown mode
-(autoload 'markdown-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown"))
 
-;; Org-struct minor mode active in markdown mode.
-(add-hook 'markdown-mode-hook 'turn-on-orgstruct)
-(add-hook 'markdown-mode-hook 'turn-on-orgstruct++)
+;;======================================================================
+;; Poly-Markdown configs.
+;;======================================================================
  
 (use-package poly-markdown
              :ensure t)
@@ -158,15 +142,15 @@
 (setq-default ess-dialect "R")
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 
+;; calling custom funcs
+;; (byte-compile-file "~/.emacs.d/funcs.el")
+;; (require 'funcs "~/.emacs.d/funcs.el")
+
 ;; Down below is a workaround to solve
 ;; the damn problem with fancy R comments in ESS mode.
 ;; https://github.com/emacs-ess/ESS/issues/1175
 ;; (setq ess-indent-with-fancy-comments nil)
 (setf (cdr (assoc 'ess-indent-with-fancy-comments ess-own-style-list)) nil)
-
-(use-package ess-view
-  :ensure t)
-(setq ess-view--spreadsheet-program "gnumeric")
 
 ;; Script and console highlight
 (setq ess-R-font-lock-keywords
@@ -198,16 +182,32 @@
         (ess-R-fl-keyword:F&T . t)))
 
 ;;======================================================================
-;; Python configs.
+;; Org mode config.
 ;;======================================================================
 
-;; elpy
-(use-package elpy
-  :ensure t)
+(defun org-mode-setup
+  (org-indent-mode)
+  (variable-pitch-mode)
+  (visual-line-mode 1))
 
-;; Enable elpy
-(elpy-enable)
-(setq python-shell-interpreter "/usr/bin/python3")
+(use-package org
+  :ensure t
+  :no-require
+  ;; :straight nil
+  :hook (org-mode . org-mode-setup))
+
+;; active Org Babel for languages
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)
+   (R . t)
+   (latex . t)
+   (emacs-lisp . t)))
+
+(setq org-confirm-babel-evaluate nil)
+(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)   
+(add-hook 'org-mode-hook 'org-display-inline-images)   
+(push '("conf-unix" . conf-unix) org-src-lang-modes)
 
 ;;======================================================================
 ;; Elisp functions.
@@ -237,31 +237,24 @@
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
-;; (global-set-key (kbd "M-o") 'ace-window)
 
 ;;======================================================================
 ;; Themes load
 ;;======================================================================
 
-;; Themes :)
-;; (load-theme 'tango-dark t)
-
-(use-package gruber-darker-theme
-  :ensure t
-  :config
-  (load-theme 'gruber-darker t))
+;; Themes :))
+(load-theme 'tango-dark t)
 
 ;;======================================================================
 ;; MELPA stuffs
 ;;======================================================================
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(gruber-darker-theme elpy ess-view ess poly-R poly-markdown magit web-mode neotree all-the-icons which-key highlight-parentheses company flycheck polymode try use-package)))
+   '(elpy ess poly-R poly-markdown web-mode neotree all-the-icons which-key highlight-parentheses try polymode use-package cmake-mode)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
