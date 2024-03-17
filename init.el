@@ -28,7 +28,6 @@
 ;;======================================================================
 ;; Fonts config
 ;;======================================================================
-
 (set-frame-font "DejaVu Sans Mono Bold" nil t)
 
 ;;======================================================================
@@ -63,6 +62,8 @@
   :ensure t)
 
 ;; Mode for code completion
+;; Needs to install from M-x
+;; Otherwise it will not work.
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -119,18 +120,9 @@
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown"))
-
-;;======================================================================
-;; Poly-Markdown configs.
-;;======================================================================
- 
-(use-package poly-markdown
-             :ensure t)
-(use-package poly-R
-  :ensure t)
-(add-to-list 'auto-mode-alist '("\\.[Rr]md" . poly-markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+	      ("C-c C-e" . markdown-do)))
 
 ;;======================================================================
 ;; R configs.
@@ -141,10 +133,6 @@
   :ensure t)
 (setq-default ess-dialect "R")
 (setq-default inferior-R-args "--no-restore-history --no-save ")
-
-;; calling custom funcs
-;; (byte-compile-file "~/.emacs.d/funcs.el")
-;; (require 'funcs "~/.emacs.d/funcs.el")
 
 ;; Down below is a workaround to solve
 ;; the damn problem with fancy R comments in ESS mode.
@@ -182,6 +170,18 @@
         (ess-R-fl-keyword:F&T . t)))
 
 ;;======================================================================
+;; Poly-Markdown configs.
+;;======================================================================
+
+(use-package poly-markdown
+             :ensure t)
+(use-package poly-R
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.[Rr]md\\'" . poly-gfm+r-mode)))
+(setq markdown-code-block-braces t)
+
+;;======================================================================
 ;; Org mode config.
 ;;======================================================================
 
@@ -193,7 +193,6 @@
 (use-package org
   :ensure t
   :no-require
-  ;; :straight nil
   :hook (org-mode . org-mode-setup))
 
 ;; active Org Babel for languages
@@ -202,6 +201,7 @@
  '((python . t)
    (R . t)
    (latex . t)
+   (shell . t)
    (emacs-lisp . t)))
 
 (setq org-confirm-babel-evaluate nil)
@@ -248,13 +248,14 @@
 ;;======================================================================
 ;; MELPA stuffs
 ;;======================================================================
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(elpy ess poly-R poly-markdown web-mode neotree all-the-icons which-key highlight-parentheses try polymode use-package cmake-mode)))
+   '(poly-R poly-markdown ess markdown-mode web-mode neotree which-key highlight-parentheses cmake-mode use-package try polymode auto-complete all-the-icons)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
