@@ -13,7 +13,7 @@
 
 (setq inhibit-startup-message t)                             ;; Remove welcome screen
 (tool-bar-mode -1)                                           ;; Remove tool menu
-(menu-bar-mode -1)                                           ;; Remove bar menu
+;; (menu-bar-mode -1)                                        ;; Remove bar menu
 (show-paren-mode t)                                          ;; Highlight matching pair
 (setq auto-save-default nil)                                 ;; Disable #autosave#
 (setq make-backup-files nil)                                 ;; Disable backup~
@@ -21,14 +21,15 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Start every frame maximazed
 (scroll-bar-mode -1)                                         ;; Remove scrollbar mode
 (global-linum-mode t)                                        ;; Set line number global
-(global-visual-line-mode t)                                  ;; Do not wrap lines
-(toggle-truncate-lines -1)                                   ;; Do not truncate lines 
+;; (global-visual-line-mode t)                               ;; Do not wrap lines
+;; (toggle-truncate-lines -1)                                ;; Do not truncate lines 
 (require 'generic-x)                                         ;; A better highlight
 
 ;;======================================================================
 ;; Fonts config
 ;;======================================================================
 (set-frame-font "DejaVu Sans Mono Bold" nil t)
+;; (set-frame-font "Freemono Bold" nil t)
 
 ;;======================================================================
 ;; Package config
@@ -40,9 +41,9 @@
 ;; MELPA repos
  (setq package-archives
       '(("melpa". "https://melpa.org/packages/")
-	("melpa-stable". "https://stable.melpa.org/packages/")
-	("gnu" . "https://elpa.gnu.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
+	("melpa-stable". "https://stable.melpa.org/packages/")))
+	;; ("gnu" . "https://elpa.gnu.org/packages/")
+        ;; ("org" . "http://orgmode.org/elpa/")))
 
 (package-initialize) 
 (unless (package-installed-p 'use-package)
@@ -69,7 +70,7 @@
 
 ;; Ido mode
 (require 'ido)
-    (ido-mode t)
+(ido-mode t)
 
 ;; Parentheses
 (use-package highlight-parentheses
@@ -88,6 +89,7 @@
     (which-key-mode)))
 
 ;; download icons
+;; Needs to install from M-x
 (use-package all-the-icons
   :ensure t
   :if (display-graphic-p))
@@ -120,9 +122,15 @@
 (use-package markdown-mode
   :ensure t
   :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
+  ;; :init (setq markdown-command "multimarkdown")
+  :init (setq markdown-command "pandoc")
   :bind (:map markdown-mode-map
-	      ("C-c C-e" . markdown-do)))
+              ("C-c C-e" . markdown-do)))
+(setq markdown-enable-math t)
+
+;; https://stackoverflow.com/questions/14231043/emacs-markdown-mode-error-on-preview-bin-bash-markdown-command-not-found
+;; (custom-set-variables
+;;   '(markdown-command "/usr/bin/pandoc"))
 
 ;;======================================================================
 ;; R configs.
@@ -135,7 +143,7 @@
 (setq-default inferior-R-args "--no-restore-history --no-save ")
 
 ;; Down below is a workaround to solve
-;; the damn problem with fancy R comments in ESS mode.
+;; the problem with fancy R comments in ESS mode.
 ;; https://github.com/emacs-ess/ESS/issues/1175
 ;; (setq ess-indent-with-fancy-comments nil)
 (setf (cdr (assoc 'ess-indent-with-fancy-comments ess-own-style-list)) nil)
@@ -173,41 +181,15 @@
 ;; Poly-Markdown configs.
 ;;======================================================================
 
-(use-package poly-markdown
-             :ensure t)
 (use-package poly-R
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.[Rr]md\\'" . poly-gfm+r-mode)))
+  (add-to-list 'auto-mode-alist '("\\.[Rr]md\\'" . poly-markdown+r-mode)))
 (setq markdown-code-block-braces t)
 
-;;======================================================================
-;; Org mode config.
-;;======================================================================
-
-(defun org-mode-setup
-  (org-indent-mode)
-  (variable-pitch-mode)
-  (visual-line-mode 1))
-
-(use-package org
+(use-package poly-markdown
   :ensure t
-  :no-require
-  :hook (org-mode . org-mode-setup))
-
-;; active Org Babel for languages
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((python . t)
-   (R . t)
-   (latex . t)
-   (shell . t)
-   (emacs-lisp . t)))
-
-(setq org-confirm-babel-evaluate nil)
-(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)   
-(add-hook 'org-mode-hook 'org-display-inline-images)   
-(push '("conf-unix" . conf-unix) org-src-lang-modes)
+  :init (add-to-list 'auto-mode-alist '("\\.md\\'" . poly-markdown-mode)))
 
 ;;======================================================================
 ;; Elisp functions.
@@ -227,7 +209,6 @@
 ;; key shortcuts.
 ;;======================================================================
 
-(global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "M-<down>") 'enlarge-window)
 (global-set-key (kbd "M-<up>") 'shrink-window)
 (global-set-key (kbd "M-<left>") 'enlarge-window-horizontally)
@@ -242,20 +223,21 @@
 ;; Themes load
 ;;======================================================================
 
-;; Themes :))
 (load-theme 'tango-dark t)
+;; (use-package nord-theme
+;;  :ensure t)
+;; (load-theme 'nord t)
 
 ;;======================================================================
 ;; MELPA stuffs
 ;;======================================================================
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(poly-R poly-markdown ess markdown-mode web-mode neotree which-key highlight-parentheses cmake-mode use-package try polymode auto-complete all-the-icons)))
+   '(poly-R ess markdown-mode web-mode neotree which-key highlight-parentheses cmake-mode use-package try polymode auto-complete all-the-icons)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
