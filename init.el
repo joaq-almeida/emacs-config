@@ -20,7 +20,7 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized)) ;; Start frame with full screen
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;; Start every frame maximazed
 (scroll-bar-mode -1)                                         ;; Remove scrollbar mode
-(global-linum-mode t)                                        ;; Set line number global
+(global-display-line-numbers-mode t)                         ;; Display line numbers
 ;; (global-visual-line-mode t)                               ;; Do not wrap lines
 ;; (toggle-truncate-lines -1)                                ;; Do not truncate lines 
 (require 'generic-x)                                         ;; A better highlight
@@ -29,7 +29,6 @@
 ;; Fonts config
 ;;======================================================================
 (set-frame-font "DejaVu Sans Mono Bold" nil t)
-;; (set-frame-font "Freemono Bold" nil t)
 
 ;;======================================================================
 ;; Package config
@@ -42,8 +41,6 @@
  (setq package-archives
       '(("melpa". "https://melpa.org/packages/")
 	("melpa-stable". "https://stable.melpa.org/packages/")))
-	;; ("gnu" . "https://elpa.gnu.org/packages/")
-        ;; ("org" . "http://orgmode.org/elpa/")))
 
 (package-initialize) 
 (unless (package-installed-p 'use-package)
@@ -65,6 +62,8 @@
 ;; Mode for code completion
 ;; Needs to install from M-x
 ;; Otherwise it will not work.
+(use-package auto-complete
+  :ensure t)
 (require 'auto-complete-config)
 (ac-config-default)
 
@@ -98,39 +97,6 @@
 (use-package neotree
   :ensure t
   :config (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-
-;; Install web-mode
-(use-package web-mode
-  :ensure t
-  :mode (("\\.html?\\'" . web-mode))
-  :config
-  (setq web-mode-markup-indent-offset 2
-        web-mode-css-indent-offset 2
-        web-mode-code-indent-offset 2
-        web-mode-block-padding 2
-        web-mode-comment-style 2
-        web-mode-enable-css-colorization t
-        web-mode-enable-auto-pairing t
-        web-mode-enable-comment-keywords t
-        web-mode-enable-current-element-highlight t
-        ))
-
-;;======================================================================
-;; Markdown configs.
-;;======================================================================
-
-(use-package markdown-mode
-  :ensure t
-  :mode ("README\\.md\\'" . gfm-mode)
-  ;; :init (setq markdown-command "multimarkdown")
-  :init (setq markdown-command "pandoc")
-  :bind (:map markdown-mode-map
-              ("C-c C-e" . markdown-do)))
-(setq markdown-enable-math t)
-
-;; https://stackoverflow.com/questions/14231043/emacs-markdown-mode-error-on-preview-bin-bash-markdown-command-not-found
-;; (custom-set-variables
-;;   '(markdown-command "/usr/bin/pandoc"))
 
 ;;======================================================================
 ;; R configs.
@@ -178,18 +144,23 @@
         (ess-R-fl-keyword:F&T . t)))
 
 ;;======================================================================
-;; Poly-Markdown configs.
+;; Poly and Markdown configs.
 ;;======================================================================
 
-(use-package poly-R
+(use-package markdown-mode
   :ensure t
-  :init
-  (add-to-list 'auto-mode-alist '("\\.[Rr]md\\'" . poly-markdown+r-mode)))
-(setq markdown-code-block-braces t)
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+         ("C-c C-e" . markdown-do)))
 
-(use-package poly-markdown
-  :ensure t
-  :init (add-to-list 'auto-mode-alist '("\\.md\\'" . poly-markdown-mode)))
+(use-package poly-R
+  :ensure t)
+(require 'poly-R)
+
+(add-to-list 'auto-mode-alist
+             '("\\.[rR]md\\'" . poly-gfm+r-mode))
+(setq markdown-code-block-braces t)
 
 ;;======================================================================
 ;; Elisp functions.
@@ -237,7 +208,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(poly-R ess markdown-mode web-mode neotree which-key highlight-parentheses cmake-mode use-package try polymode auto-complete all-the-icons)))
+   '(quarto-mode poly-R markdown-mode ess neotree all-the-icons which-key highlight-parentheses auto-complete polymode try)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
