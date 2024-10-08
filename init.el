@@ -176,6 +176,21 @@
   (next-buffer)     ;; 2
   (other-window 1))
 
+(defun new-code-chunk ()
+  (interactive)
+  (if (derived-mode-p 'ess-mode)
+      (insert "```\n\n```{r}\n")
+    (insert "```{r}\n\n```")
+    (forward-line -1)))
+
+(defun duplicate-line ()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (newline)
+  (yank))
+
 ;;======================================================================
 ;; key shortcuts.
 ;;======================================================================
@@ -189,6 +204,8 @@
 (global-set-key "\C-z" 'undo)
 (global-set-key [f8] 'neotree-toggle)
 (global-set-key [f9] 'neotree-dir)
+(global-set-key (kbd "C-c i") 'new-code-chunk)
+(global-set-key (kbd "C-c d") 'duplicate-line)
 
 ;;======================================================================
 ;; Themes load
