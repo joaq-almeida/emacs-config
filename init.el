@@ -179,8 +179,8 @@
 (defun new-code-chunk ()
   (interactive)
   (if (derived-mode-p 'ess-mode)
-      (insert "```\n\n```{r}\n")
-    (insert "```{r}\n\n```")
+      (insert "```\n\n```{r warning=FALSE, message=FALSE}\n")
+    (insert "```{r warning=FALSE, message=FALSE}\n\n```")
     (forward-line -1)))
 
 (defun duplicate-line ()
@@ -225,7 +225,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(quarto-mode poly-R markdown-mode ess neotree all-the-icons which-key highlight-parentheses auto-complete polymode try)))
+   '(all-the-icons-completion all-the-icons-ivy all-the-icons-nerd-fonts quarto-mode poly-R markdown-mode ess neotree all-the-icons which-key highlight-parentheses auto-complete polymode try)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
